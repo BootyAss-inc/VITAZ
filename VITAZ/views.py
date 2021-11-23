@@ -1,45 +1,38 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from django.http.response import StreamingHttpResponse
-from django.views.decorators import gzip
+# from django.views.decorators import gzip
 
-from threading import Thread
+# from threading import Thread
+from django.http.response import StreamingHttpResponse
 import cv2
 
-# Create your views here.
-@gzip.gzip_page
+
 def home(request, *args, **kwargs):
-    try:
-        cam = VideoCam()
-        return StreamingHttpResponse(
-            gen(cam),
-            content_type='multipart/x-mixed-replace;boundary=frame'
-        )
-    except:
-        pass
     return render(request, 'home.html')
 
-class VideoCam(object):
+
+
+class WebCam(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
-        self.grabbed, self.frame = self.video.read()
-        Thread(target=self.update, args=()).start()
+        self.webcam = cv2.VideoCapture(0)
 
     def __del__(self):
-        self.video.release()
+        self.webcam.release()
 
     def get_frame(self):
-        _, img = cv2.imencode('.jpg', self.frame)
-        return img.tobytes()
+        ret, frame = self.webcam.read()
+        ret, jpeg = cv2.imencode('.jpeg', frame)
+        return jpeg.tobytes()
 
-    def update(self):
-        while True:
-            self.grabbed, self.frame = self.video.read()
-    
-def gen(camera):
+def gen_frame_img(webcam):
     while True:
-        frame = camera.get_frame()
-        yield  (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n'
-        )
+        frame = webcam.get_frame()
+        yield ( b'--frame\r\n'
+                b'content-type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+def webcam_get_frame(request):
+    return StreamingHttpResponse(
+        gen_frame_img(WebCam()), 
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )

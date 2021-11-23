@@ -1,3 +1,6 @@
+![GitHub Contributors Image](https://contrib.rocks/image?repo=BootyAss/VITAZ)
+![Jokes Card](https://readme-jokes.vercel.app/api)
+
 # Face Recognition and Emotion Detector Device
 
 1. Orange PI 1
