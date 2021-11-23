@@ -24,7 +24,8 @@ Run `py manage.py [cmds]` instead of `py -m django [cmds]` or `django-admin [cmd
 1. ### `VITAZ`
 |file name          |description|
 |---                |---        |
-|`migrations` folder|generating DB tables                           |
+|F `migrations`     |generating DB tables                           |
+|F `templates`      |actually views (html...)                       |
 |`__init__.py__`    |defining this module as a package              |
 |`admin.py`         |admin interface                                |
 |`apps.py`          |actually app config                            |
