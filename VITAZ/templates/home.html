@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 
 <head>
-    <title>
-        Camera
-    </title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;500;600&display=swap');
+    </style>
+
+    <link rel="shortcut icon" type="image/x-ico" href="{% static 'logo_black.ico' %}">
+
+    <meta charset="utf-8">
+    <meta name="author" content="BootyAss-inc">
+    <meta name="description" content="Server for detecting faces and emotions with unlocking system.">
+    <title>VITAZ</title>
 </head>
 
 <body>
-    <p>FUCK OFF</p>
-    <img class="webcam" src="{% url 'webcam' %}">
-    <p>FUCK OFF</p>
+    <div class="header">
+        <p class="app-name">VITAZ</p>
+        <p class="aut-name">by Pershaev & Evula</p>
+    </div>
+
+    <div class="camera-container">
+        <img class="camera-preview" src="{% url 'camera' %}">
+    </div>
+
+    <div class="button-container">
+        <button class="button"><span class="button-text">Detect Emotions</span></button>
+        <button class="button"><span class="button-text">Create New User</span></button>
+        <button class="button"><span class="button-text">Switch Camera</span></button>
+    </div>
 </body>
 
 </html>
