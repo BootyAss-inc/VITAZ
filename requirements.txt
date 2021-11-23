@@ -1,0 +1,2 @@
+django
+opencv-python
