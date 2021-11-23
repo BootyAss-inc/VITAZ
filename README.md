@@ -1,4 +1,4 @@
-![GitHub Contributors Image](https://contrib.rocks/image?repo=BootyAss/VITAZ)
+![GitHub Contributors Image](https://contrib.rocks/image?repo=BootyAss-inc/VITAZ/)
 
 # Face Recognition and Emotion Detector Device
 1. Orange PI 1
