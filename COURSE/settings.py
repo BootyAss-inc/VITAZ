@@ -31,12 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'VITAZ.apps.VITAZConfig',
+
     'django.contrib.admin',
+    'django.contrib.sessions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'VITAZ'
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [

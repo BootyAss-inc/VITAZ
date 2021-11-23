@@ -3,6 +3,6 @@ from . import views
 
 # URL router config for VITAZ 
 urlpatterns = [
-    path('', views.home),
-    path('hello/', views.hello)
+    path('', views.home, name='home'),
+    # path('camera/', views.camera, name='camera')
 ]
