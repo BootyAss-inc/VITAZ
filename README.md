@@ -1,8 +1,9 @@
-![GitHub Contributors Image](https://contrib.rocks/image?repo=BootyAss/VITAZ)
-![Jokes Card](https://readme-jokes.vercel.app/api)
+![Jokes Card](https://readme-jokes.vercel.app/api)<br>
+<a href = "https://github.com/BootyAss/VITAZ/graphs/contributors">
+<img src = "https://contrib.rocks/image?repo = BootyAss/VITAZ"/>
+</a>
 
 # Face Recognition and Emotion Detector Device
-
 1. Orange PI 1
 1. Python 3.10.0 + Django 3.2.9
 
