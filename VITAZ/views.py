@@ -1,9 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
-# from django.views.decorators import gzip
-
-# from threading import Thread
 from django.http.response import StreamingHttpResponse
 import cv2
 
@@ -15,24 +10,31 @@ def home(request, *args, **kwargs):
 
 class WebCam(object):
     def __init__(self):
-        self.webcam = cv2.VideoCapture(0)
+        self.camNum = 0
+        self.camera = cv2.VideoCapture(self.camNum)
 
     def __del__(self):
-        self.webcam.release()
+        self.camera.release()
 
-    def get_frame(self):
-        ret, frame = self.webcam.read()
-        ret, jpeg = cv2.imencode('.jpeg', frame)
+    def getFrame(self):
+        _, frame = self.camera.read()
+        _, jpeg = cv2.imencode('.jpeg', frame)
         return jpeg.tobytes()
 
-def gen_frame_img(webcam):
+    def changeCamera(self):
+        self.camera.release()
+        self.camNum += 1
+        self.camera = cv2.VideoCapture(self.camNum)
+
+
+def getCameraFrameAsImage(camera):
     while True:
-        frame = webcam.get_frame()
+        frame = camera.getFrame()
         yield ( b'--frame\r\n'
                 b'content-type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-def webcam_get_frame(request):
+def getCameraFrame(request):
     return StreamingHttpResponse(
-        gen_frame_img(WebCam()), 
+        getCameraFrameAsImage(WebCam()), 
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
