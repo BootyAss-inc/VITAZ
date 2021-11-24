@@ -4,10 +4,12 @@
 <head>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- import font -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;500;600&display=swap');
     </style>
 
+    <!-- tab icon -->
     <link rel="shortcut icon" type="image/x-ico" href="{% static 'logo_black.ico' %}">
 
     <meta charset="utf-8">
@@ -34,12 +36,21 @@
             <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
         </button>
     </div>
-
-    {% if id == -1 %}
+    {% if onSignUp %}
+    <form class="signup-form">
+        <div class="signup-txt">
+            <label class="signup-lbl" for="userName">Name:</label>
+            <input class="signup-inp" type="text" name="fname" autocomplete="off" maxlength="22">
+        </div>
+        <div>
+            <a class="signup-btn" href="{% url 'signUpInner' %}">Sign up</a>
+        </div>
+    </form>
+    {% else %} {% if id == -1 %}
     <div class="text-no">ACCESS DENIED</div>
     {% else %}
-    <div class="text-yes">{{ id }}</div>
-    {% endif %}
+    <div class="text-yes">Hello, {{ id }}</div>
+    {% endif %} {% endif %}
 </body>
 
 </html>
