@@ -4,11 +4,15 @@
 1. Orange PI 1
 1. Python 3.10.0 + Django 3.2.9
 
+# How to run project
+1. Install Python and PIP
+1. Run `py -m pip install -r requirements.txt`
+1. Run `py manage.py runserver`
+1. Enjoy
+
 
 # Project's file explanation
-
 ## Django
-
 1. ### `manage.py`
 Django commands handler<br>
 Run `py manage.py [cmds]` instead of `py -m django [cmds]` or `django-admin [cmds]`
