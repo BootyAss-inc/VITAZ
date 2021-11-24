@@ -49,8 +49,8 @@ body {
     /* POSITION AT CENTER */
     display: flex;
     justify-content: space-around;
-    width: 600px;
-    height: 75px;
+    width: 500px;
+    height: 85px;
     margin: 0 auto;
     padding: 0;
 }
@@ -59,12 +59,11 @@ body {
     /* SIZE OF BUTTON */
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 200px;
     height: 100%;
     /* STYLE */
     background-color: rgba(255, 255, 255, 0);
-    border-style: none;
-    border-color: white;
+    border: none;
 }
 
 .button-text {
@@ -75,12 +74,15 @@ body {
     margin: 0;
     padding: 0;
     /* STYLE */
-    color: white;
-    font-size: 20px;
-    font-weight: 0;
-    transition: transform 0.4s ease-out;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: 100;
+    letter-spacing: 5px;
+    color: rgba(255, 255, 255, 0.2);
+    transition: color 0.5s ease-out;
 }
 
 .button-text:hover {
-    transform: scale(1.35);
+    color: rgba(255, 255, 255, 0.9);
 }

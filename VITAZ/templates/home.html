@@ -27,9 +27,12 @@
     </div>
 
     <div class="button-container">
-        <button class="button"><span class="button-text">Detect Emotions</span></button>
-        <button class="button"><span class="button-text">Create New User</span></button>
-        <button class="button"><span class="button-text">Switch Camera</span></button>
+        <button class="button">
+            <a class="button-text" href="{% url 'signIn' %}">Sign in</a>
+        </button>
+        <button class="button">
+            <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
+        </button>
     </div>
 </body>
 
