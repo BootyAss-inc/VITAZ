@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(26, 26, 26);
+    /* background-color: rgb(26, 26, 26); */
+    background-color: #999999;
     margin: 0;
     padding: 0;
     font-family: 'Outfit', sans-serif;
@@ -88,9 +89,11 @@ body {
 }
 
 .text-no {
+    /* POSITION */
     padding: 20px 0;
     display: flex;
     justify-content: center;
+    /* STYLE */
     color: rgb(200, 50, 50);
     font-size: 44px;
     letter-spacing: 4px;
@@ -98,11 +101,67 @@ body {
 }
 
 .text-yes {
+    /* POSITION */
     padding: 20px 0;
     display: flex;
     justify-content: center;
+    /* STYLE */
     color: rgb(255, 255, 255);
     font-size: 44px;
     letter-spacing: 4px;
     font-weight: 100;
+}
+
+.signup-form {
+    /* POSITION */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: -100px auto;
+    /* SIZE */
+    width: 600px;
+    height: 150px;
+    /* text-align: center; */
+    /* STYLE */
+    border-radius: 7px;
+    background-color: rgb(26, 26, 26)
+}
+
+.signup-txt {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.signup-lbl {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: 200;
+    margin-left: -20px;
+}
+
+.signup-inp {
+    color: white;
+    width: 300px;
+    font-size: 24px;
+    font-weight: 100;
+    margin-left: 20px;
+    outline: 0;
+    border: 1px solid rgb(26, 26, 26);
+    border-bottom: 2px solid rgb(255, 255, 255);
+    background-color: rgb(26, 26, 26)
+}
+
+.signup-btn {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    /* STYLE */
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    color: rgb(255, 255, 255);
 }
