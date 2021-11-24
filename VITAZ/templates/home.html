@@ -34,6 +34,12 @@
             <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
         </button>
     </div>
+
+    {% if id == -1 %}
+    <div class="text-no">ACCESS DENIED</div>
+    {% else %}
+    <div class="text-yes">{{ id }}</div>
+    {% endif %}
 </body>
 
 </html>

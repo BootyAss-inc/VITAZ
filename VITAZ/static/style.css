@@ -76,7 +76,7 @@ body {
     /* STYLE */
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 100;
     letter-spacing: 5px;
     color: rgba(255, 255, 255, 0.2);
@@ -85,4 +85,24 @@ body {
 
 .button-text:hover {
     color: rgba(255, 255, 255, 0.9);
+}
+
+.text-no {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    color: rgb(200, 50, 50);
+    font-size: 44px;
+    letter-spacing: 4px;
+    font-weight: 100;
+}
+
+.text-yes {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    font-size: 44px;
+    letter-spacing: 4px;
+    font-weight: 100;
 }

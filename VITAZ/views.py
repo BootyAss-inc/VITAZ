@@ -7,7 +7,11 @@ camera = WebCam()
 
 
 def home(request, *args, **kwargs):
-    return render(request, 'home.html')
+    id = camera.getLastID()
+    args = {
+        "id": id
+    }
+    return render(request, 'home.html', args)
 
 def getCameraFrame(request, *args, **kwargs):
     return StreamingHttpResponse(
@@ -16,7 +20,12 @@ def getCameraFrame(request, *args, **kwargs):
     )
 
 def signIn(request, *args, **kwargs):
-    return render(request, 'home.html')
+    id = camera.getLastID()
+    args = {
+        "id": id
+    }
+
+    return render(request, 'home.html', args)
     
 def signUp(request, *args, **kwargs):
     return render(request, 'home.html')
