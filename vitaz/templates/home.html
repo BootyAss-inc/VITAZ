@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- import font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;500;600&display=swap');
+    </style>
+
+    <!-- tab icon -->
+    <link rel="shortcut icon" type="image/x-ico" href="{% static 'logo_black.ico' %}">
+
+    <meta charset="utf-8">
+    <meta name="author" content="BootyAss-inc">
+    <meta name="description" content="Server for detecting faces and emotions with unlocking system.">
+    <title>VITAZ</title>
+</head>
+
+<body>
+    <div class="header">
+        <a class="app-name" href="{% url 'home' %}">VITAZ</a>
+        <p class="aut-name">by Pershaev & Evula</p>
+    </div>
+
+    <div class="camera-container">
+        <img class="camera-preview" src="{% url 'cameraFrame' %}">
+    </div>
+
+    <div class="button-container">
+        <button class="button">
+            <a class="button-text" href="{% url 'signIn' %}">Sign in</a>
+        </button>
+        <button class="button">
+            <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
+        </button>
+    </div>
+
+    <!-- ON SIGN UP -->
+    {% if ret %}
+    <div class="text-no">NO FACE DETECTED</div>
+    {% endif %}
+
+    <!-- ACCESS -->
+    {% if showAccess %} {% if access %}
+    <div class="text-yes">ACCESS GRANTED</div>
+    {% else %}
+    <div class="text-no">ACCESS DENIED</div>
+    {% endif %}{% endif %}
+
+</body>
+
+</html>

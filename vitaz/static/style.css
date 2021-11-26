@@ -1,0 +1,174 @@
+body {
+    background-color: #1a1a1a;
+    /* background-color: #999999; */
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.header {
+    /* POSITION AT CENTER */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 25px;
+    /* FONT */
+    color: white;
+}
+
+.app-name {
+    /* POSITION */
+    margin: 0;
+    padding: 5px;
+    /* FONT */
+    font-size: 85px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    /* STYLE */
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.app-name:visited {
+    color: #ffffff;
+}
+
+.aut-name {
+    /* TO POSITION RIGHT OF APP NAME */
+    position: absolute;
+    margin-left: 390px;
+    padding: 0;
+    /* FONT */
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0px;
+}
+
+.camera-container {
+    /* POSITION AT CENTER */
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 50px;
+}
+
+.button-container {
+    /* POSITION AT CENTER */
+    display: flex;
+    justify-content: space-around;
+    width: 500px;
+    height: 85px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.button {
+    /* SIZE OF BUTTON */
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    height: 100%;
+    /* STYLE */
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+}
+
+.button-text {
+    /* POSITION */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    /* STYLE */
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 34px;
+    font-weight: 100;
+    letter-spacing: 5px;
+    color: rgba(255, 255, 255, 0.2);
+    transition: color 0.5s ease-out;
+}
+
+.button-text:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.text-no {
+    /* POSITION */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    /* STYLE */
+    color: rgb(200, 50, 50);
+    font-size: 44px;
+    letter-spacing: 4px;
+    font-weight: 100;
+}
+
+.text-yes {
+    /* POSITION */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    /* STYLE */
+    color: rgb(50, 200, 50);
+    font-size: 44px;
+    letter-spacing: 4px;
+    font-weight: 100;
+}
+
+.signup-form {
+    /* POSITION */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0 auto;
+    /* SIZE */
+    width: 600px;
+    height: 150px;
+    /* text-align: center; */
+    /* STYLE */
+    border-radius: 7px;
+    background-color: #1a1a1a;
+}
+
+.signup-txt {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.signup-lbl {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 200;
+    margin-left: -20px;
+}
+
+.signup-inp {
+    color: #ffffff;
+    width: 300px;
+    font-size: 24px;
+    font-weight: 100;
+    margin-left: 20px;
+    outline: 0;
+    border: 1px solid rgb(26, 26, 26);
+    border-bottom: 2px solid #ffffff;
+    background-color: #1a1a1a;
+}
+
+.signup-btn {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    /* STYLE */
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    color: #ffffff;
+}
