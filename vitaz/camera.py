@@ -72,7 +72,7 @@ class Camera(object):
         if not len(faces):
             return True, False, None
 
-        (images, labels, names, id) = ([], [], {}, 0)
+        images, labels, names, id = [], [], {}, 0
         for (subdirs, dirs, files) in os.walk(self.datasetsDir):
             for subdir in dirs:
                 names[id] = subdir
@@ -92,9 +92,9 @@ class Camera(object):
         for (x, y, w, h) in faces:
             face = gray[y:y + h, x:x + w]
             faceResized = cv2.resize(face, self.imgSize)
-            name, conf = self.recognizer.predict(faceResized)
+            id, conf = self.recognizer.predict(faceResized)
             # print(name, conf) - надо бы подкрутить логирование
             if conf > 40 and conf < 80:
-                return False, True, name
+                return False, True, names[id]
             else:
                 return False, False, None
