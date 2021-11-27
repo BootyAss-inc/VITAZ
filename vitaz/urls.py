@@ -12,4 +12,4 @@ urlpatterns = [
     path('signIn', views.signIn, name='signIn'),
     # on signUp button click
     path('signUp', views.signUp, name='signUp'),
-]
+    ]

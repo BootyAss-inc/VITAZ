@@ -51,6 +51,11 @@ body {
     justify-content: center;
     margin: 0;
     padding: 50px;
+    padding-top: 0px;
+}
+
+.camera-preview {
+    border-radius: 10px;
 }
 
 .button-container {
@@ -87,12 +92,12 @@ body {
     font-size: 34px;
     font-weight: 100;
     letter-spacing: 5px;
-    color: rgba(255, 255, 255, 0.2);
+    color: #505050;
     transition: color 0.5s ease-out;
 }
 
 .button-text:hover {
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff;
 }
 
 .text-no {
@@ -101,6 +106,7 @@ body {
     display: flex;
     justify-content: center;
     /* STYLE */
+    text-transform: uppercase;
     color: rgb(200, 50, 50);
     font-size: 44px;
     letter-spacing: 4px;
@@ -113,62 +119,79 @@ body {
     display: flex;
     justify-content: center;
     /* STYLE */
+    text-transform: uppercase;
     color: rgb(50, 200, 50);
     font-size: 44px;
     letter-spacing: 4px;
     font-weight: 100;
 }
 
-.signup-form {
-    /* POSITION */
-    position: relative;
+.popup-container {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin: 0 auto;
-    /* SIZE */
-    width: 600px;
-    height: 150px;
-    /* text-align: center; */
-    /* STYLE */
-    border-radius: 7px;
-    background-color: #1a1a1a;
-}
-
-.signup-txt {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.signup-lbl {
-    color: #ffffff;
-    font-size: 24px;
-    font-weight: 200;
-    margin-left: -20px;
-}
-
-.signup-inp {
-    color: #ffffff;
-    width: 300px;
-    font-size: 24px;
-    font-weight: 100;
-    margin-left: 20px;
-    outline: 0;
-    border: 1px solid rgb(26, 26, 26);
-    border-bottom: 2px solid #ffffff;
-    background-color: #1a1a1a;
-}
-
-.signup-btn {
-    display: flex;
-    justify-content: center;
+    align-items: center;
+    margin: -20px auto;
     padding: 0;
-    /* STYLE */
+    width: 450px;
+    height: 160px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+}
+
+.popup-inp {
+    margin: 10px 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 100;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.popup-inp::placeholder {
+    padding: 0;
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.popup-btn {
+    margin-top: -30px;
+    border: none;
+    background-color: #1a1a1a;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 28px;
-    font-weight: 300;
+    font-size: 34px;
+    font-weight: 100;
     letter-spacing: 5px;
+    color: #505050;
+    transition: color 0.5s ease-out;
+    cursor: pointer;
+}
+
+.popup-btn:hover {
     color: #ffffff;
+}
+
+.Link {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px;
+}
+
+.img {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    transition: transform 0.5s ease-out;
+}
+
+.img:hover {
+    transform: scale(1.1);
 }

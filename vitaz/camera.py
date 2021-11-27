@@ -43,10 +43,9 @@ class Camera(object):
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 1)
         return frame
 
-    def saveFace(self):
+    def saveFace(self, Name):
         ret = False
-        id = len(next(os.walk(self.datasetsDir))[1])
-        path = os.path.join(self.datasetsDir, str(id))
+        path = os.path.join(self.datasetsDir, Name)
         if not os.path.isdir(path):
             os.mkdir(path)
 
@@ -57,7 +56,6 @@ class Camera(object):
             if not len(faces):
                 shutil.rmtree(path)
                 ret = True
-                print('NO FACE')
                 break
             for (x, y, w, h) in faces:
                 face = gray[y:y + h, x:x + w]
@@ -65,7 +63,6 @@ class Camera(object):
                 cv2.imwrite(f'{path}/{c}.jpeg', faceResized)
             key = cv2.waitKey(10)
 
-        print('Error?', ret)
         return ret
 
     def recognizeFace(self):
@@ -73,8 +70,7 @@ class Camera(object):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
         if not len(faces):
-            print('NO FACE')
-            return True, False
+            return True, False, None
 
         (images, labels, names, id) = ([], [], {}, 0)
         for (subdirs, dirs, files) in os.walk(self.datasetsDir):
@@ -88,8 +84,7 @@ class Camera(object):
                     labels.append(int(label))
                 id += 1
         if not images or not labels:
-            print('NO DATA')
-            return True, False
+            return True, False, None
 
         (images, labels) = [np.array(lis) for lis in [images, labels]]
         self.recognizer.train(images, labels)
@@ -97,9 +92,9 @@ class Camera(object):
         for (x, y, w, h) in faces:
             face = gray[y:y + h, x:x + w]
             faceResized = cv2.resize(face, self.imgSize)
-            ID, conf = self.recognizer.predict(faceResized)
-            print(ID, conf)
+            name, conf = self.recognizer.predict(faceResized)
+            # print(name, conf) - надо бы подкрутить логирование
             if conf > 40 and conf < 80:
-                return False, True
+                return False, True, name
             else:
-                return False, False
+                return False, False, None

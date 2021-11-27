@@ -28,6 +28,18 @@
         <img class="camera-preview" src="{% url 'cameraFrame' %}">
     </div>
 
+    <!-- ON SIGN UP -->
+    {% if pop %}
+    <form class="popup-container" method="post" autocomplete="off">
+        {% csrf_token %} {{ form.name }}
+        <input class="popup-inp" type="text" name="popup" placeholder="Name">
+        <button class="popup-btn">Sign up</button>
+    </form>
+    <!-- NO FACE -->
+    {% if ret %}
+    <div class="text-no">no face detected</div>
+    {% endif %} {% else %}
+
     <div class="button-container">
         <button class="button">
             <a class="button-text" href="{% url 'signIn' %}">Sign in</a>
@@ -37,17 +49,21 @@
         </button>
     </div>
 
-    <!-- ON SIGN UP -->
+    <!-- NO FACE -->
     {% if ret %}
-    <div class="text-no">NO FACE DETECTED</div>
+    <div class="text-no">no face detected</div>
     {% endif %}
 
-    <!-- ACCESS -->
+    <!-- ON SIGN IN -->
     {% if showAccess %} {% if access %}
-    <div class="text-yes">ACCESS GRANTED</div>
+    <div class="text-yes">access granted</div>
+    <div class="text-yes">hello {{ NAME}}</div>
     {% else %}
-    <div class="text-no">ACCESS DENIED</div>
-    {% endif %}{% endif %}
+    <div class="text-no">access denied</div>
+    {% endif %} {% endif %} {% endif %}
+
+
+    <a class="Link" href="https://github.com/bootyass-inc/VITAZ" target="_blank"><img class="img" src="/static/github.png"></a>
 
 </body>
 
