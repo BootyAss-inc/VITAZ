@@ -57,7 +57,6 @@ def signUp(request, *args, **kwargs):
                 if not ret:
                     return redirect('home')
 
-
     form = VitazForm()
     args= { 
         'ret': ret,

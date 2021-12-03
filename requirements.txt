@@ -2,3 +2,5 @@ django
 opencv-python
 opencv-contrib-python
 numpy
+tensorflow
+
