@@ -2,7 +2,7 @@
 
 # Face Recognition and Emotion Detector Device
 1. Orange PI 1
-1. Python 3.10.0 + Django 3.2.9
+1. For proper work use Python 3.9
 
 # How to run project
 1. Install Python and PIP
