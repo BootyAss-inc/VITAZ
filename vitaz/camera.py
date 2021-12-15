@@ -10,16 +10,17 @@ from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
-
-haar = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+from . import logger
 
 
 class Camera(object):
     camera = cv2.VideoCapture(0)
 
-    model = Sequential()            # Emots
-    emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
+    model = Sequential()
+    emotDict = {0: "Angry", 1: "Disgusted", 2: "Fearful",
+                3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
+    haar = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
     faceCascade = cv2.CascadeClassifier(haar)
     recognizer = cv2.face.LBPHFaceRecognizer_create()
 
@@ -27,6 +28,8 @@ class Camera(object):
     datasetSize = 30
     imgSize = (150, 150)
     showFace = True
+
+    nameDirection = dict()
 
     def __init__(self):
         if not os.path.isdir(self.datasetsDir):
@@ -37,24 +40,23 @@ class Camera(object):
         self.camera.release()
 
     def loadmodel(self):
-        self.model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)))
+        self.model.add(Conv2D(32, kernel_size=(3, 3),
+                       activation='relu', input_shape=(48, 48, 1)))
         self.model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
         self.model.add(MaxPooling2D(pool_size=(2, 2)))
         self.model.add(Dropout(0.25))
-
         self.model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
         self.model.add(MaxPooling2D(pool_size=(2, 2)))
         self.model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
         self.model.add(MaxPooling2D(pool_size=(2, 2)))
         self.model.add(Dropout(0.25))
-
         self.model.add(Flatten())
         self.model.add(Dense(1024, activation='relu'))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(7, activation='softmax'))
 
         self.model.load_weights('model.h5')
-
+        logger.saveInfo('camera loaded')
 
     def readFrame(self):
         _, frame = self.camera.read()
@@ -62,28 +64,33 @@ class Camera(object):
 
     def getCameraFrame(self):
         while True:
-            frame = self.readFrame()     
-            if self.showFace: 
+            frame = self.readFrame()
+            if self.showFace:
                 frame = self.detectFace(frame)
             _, jpeg = cv2.imencode('.jpeg', frame)
-            yield ( b'--frame\r\n'
-                    b'content-type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
+            yield (b'--frame\r\n'
+                   b'content-type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
 
     def detectFace(self, frame):
+        """
+        Returns frame with square on faces and emotions
+        """
+        UI_COLOR = (0, 150, 0)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
         for (x, y, w, h) in faces:
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 1)
-            roi_gray = gray[y:y + h, x:x + w]
-            cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
-            prediction = self.model.predict(cropped_img)
-            maxindex = int(np.argmax(prediction))
-            cv2.putText(frame, self.emotion_dict[maxindex], (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+            cv2.rectangle(frame, (x, y), (x + w, y + h), UI_COLOR, 1)
+            ROI = gray[y:y + h, x:x + w]
+            croppedImg = np.expand_dims(np.expand_dims(
+                cv2.resize(ROI, (48, 48)), -1), 0)
+            emotPredictions = self.model.predict(croppedImg)
+            emotMaxIndex = int(np.argmax(emotPredictions))
+            cv2.putText(frame, self.emotDict[emotMaxIndex], (x+20, y-60),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, UI_COLOR, 1, cv2.LINE_AA)
 
         return frame
 
     def saveFace(self, Name):
-        ret = False
         path = os.path.join(self.datasetsDir, Name)
         if not os.path.isdir(path):
             os.mkdir(path)
@@ -92,24 +99,48 @@ class Camera(object):
             frame = self.readFrame()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
-            if not len(faces):
+            if len(faces) == 0:
                 shutil.rmtree(path)
-                ret = True
-                break
+                logger.saveError('no face detected')
+                return {
+                    'error': True,
+                    'noFaceDetected': True
+                }
+            if len(faces) > 1:
+                shutil.rmtree(path)
+                logger.saveError('multiple faces detected')
+                return {
+                    'error': True,
+                    'multipleFaces': True
+                }
             for (x, y, w, h) in faces:
                 face = gray[y:y + h, x:x + w]
                 faceResized = cv2.resize(face, self.imgSize)
                 cv2.imwrite(f'{path}/{c}.jpeg', faceResized)
             key = cv2.waitKey(10)
 
-        return ret
+        self.nameDirection[Name] = True
+        logger.saveInfo(f'{Name} saved')
+        return {
+            'error': False
+        }
 
     def recognizeFace(self):
         frame = self.readFrame()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
-        if not len(faces):
-            return True, False, None
+        if len(faces) == 0:
+            logger.saveError('no face detected')
+            return {
+                'error': True,
+                'noFaceDetected': True
+            }
+        if len(faces) > 1:
+            logger.saveError('multiple faces detected')
+            return {
+                'error': True,
+                'multipleFaces': True
+            }
 
         images, labels, names, id = [], [], {}, 0
         for (subdirs, dirs, files) in os.walk(self.datasetsDir):
@@ -123,7 +154,11 @@ class Camera(object):
                     labels.append(int(label))
                 id += 1
         if not images or not labels:
-            return True, False, None
+            logger.saveError('no datasets found')
+            return {
+                'showAccess': True,
+                'accessGranted': False
+            }
 
         (images, labels) = [np.array(lis) for lis in [images, labels]]
         self.recognizer.train(images, labels)
@@ -132,8 +167,27 @@ class Camera(object):
             face = gray[y:y + h, x:x + w]
             faceResized = cv2.resize(face, self.imgSize)
             id, conf = self.recognizer.predict(faceResized)
-            # print(name, conf) - надо бы подкрутить логирование
+
             if conf > 40 and conf < 80:
-                return False, True, names[id]
+                userName = names[id]
+                direction = self.nameDirection.get(userName)
+                if direction == None:
+                    direction = True
+                self.nameDirection[userName] = not direction
+                strDirection = 'entered' if direction else 'left'
+                logger.saveInfo(f'{userName} {strDirection}')
+                return {
+                    'showAccess': True,
+                    'accessGranted': True,
+                    'userName': userName,
+                    'direction': direction
+                }
             else:
-                return False, False, None
+                logger.saveInfo('access denied')
+                return {
+                    'showAccess': True,
+                    'accessGranted': False
+                }
+
+# True - еще не вошел
+# False - уже вошел

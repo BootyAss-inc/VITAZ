@@ -29,37 +29,57 @@
     </div>
 
     <!-- ON SIGN UP -->
-    {% if pop %}
-    <form class="popup-container" method="post" autocomplete="off">
-        {% csrf_token %} {{ form.name }}
-        <input class="popup-inp" type="text" name="popup" placeholder="Name">
-        <button class="popup-btn">Sign up</button>
-    </form>
-    <!-- NO FACE -->
-    {% if ret %}
-    <div class="text-no">no face detected</div>
-    {% endif %} {% else %}
+    {% if pressedSignUp %}
+        <form class="popup-container" method="post" autocomplete="off">
+            {% csrf_token %} {{ form.name }}
+            <input class="popup-inp" type="text" name="popup" placeholder="Name">
+            <button class="popup-btn">Sign up</button>
+        </form>
 
-    <div class="button-container">
-        <button class="button">
-            <a class="button-text" href="{% url 'signIn' %}">Sign in</a>
-        </button>
-        <button class="button">
-            <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
-        </button>
-    </div>
+        {% if error %}
+            {% if noFaceDetected %}
+                <div class="text-no">no face detected</div>
+            {% endif %} 
+            {% if multipleFaces %}
+                <div class="text-no">multiple faces detected</div>
+            {% endif %} 
+        {% endif %} 
 
-    <!-- NO FACE -->
-    {% if ret %}
-    <div class="text-no">no face detected</div>
-    {% endif %}
-
-    <!-- ON SIGN IN -->
-    {% if showAccess %} {% if access %}
-    <div class="text-yes">hello, {{ NAME}}</div>
     {% else %}
-    <div class="text-no">access denied</div>
-    {% endif %} {% endif %} {% endif %}
+
+        <div class="button-container">
+            <button class="button">
+                <a class="button-text" href="{% url 'signIn' %}">Sign in</a>
+            </button>
+            <button class="button">
+                <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
+            </button>
+        </div>
+
+        {% if error %}
+            {% if noFaceDetected %}
+                <div class="text-no">no face detected</div>
+            {% endif %} 
+            {% if multipleFaces %}
+                <div class="text-no">multiple faces detected</div>
+            {% endif %} 
+        {% else %}
+
+        <!-- ON SIGN IN -->
+            {% if showAccess %}
+                {% if accessGranted %}
+                    {% if direction %}
+                        <div class="text-yes">hello, {{ userName }}</div>
+                    {% else %}
+                        <div class="text-yes">good bye, {{ userName }}</div>
+                    {% endif %} 
+                {% else %}
+                    <div class="text-no">access denied</div>
+                {% endif %} 
+            {% endif %} 
+        {% endif %} 
+
+    {% endif %}
 
 
     <a class="Link" href="https://github.com/bootyass-inc/VITAZ" target="_blank"><img class="img" src="/static/github.png"></a>

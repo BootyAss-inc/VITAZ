@@ -3,7 +3,7 @@ from django.http.response import StreamingHttpResponse
 from django.forms import Form, TextInput
 
 from .camera import Camera
-
+from . import logger
 
 camera = Camera()
 
@@ -18,53 +18,55 @@ class VitazForm(Form):
     }
 
 
-def home(request, *args, **kwargs):
-    args= { 
-        'ret': False,
-        'showAccess': False,
-        'access': False,
-        'pop': False
+def defaultArgs():
+    args = {
+        'error': False,
+        'multipleFaces': False,
+        'noFaceDetected': False,
+        'showAcces': False,
+        'accessGranted': False,
+        'direction': False,
+        'pressedSignUp': False,
+        'userName': None
     }
+    return args
+
+
+logger.saveInfo('server started')
+
+
+def home(request, *args, **kwargs):
+    args = defaultArgs()
     return render(request, 'home.html', args)
+
 
 def cameraFrame(request, *args, **kwargs):
     return StreamingHttpResponse(
-        camera.getCameraFrame(), 
+        camera.getCameraFrame(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
+
 def signIn(request, *args, **kwargs):
-    ret, access, name = camera.recognizeFace()
-    args= { 
-        'ret': ret,
-        'showAccess': not ret,
-        'access': access,
-        'pop': False,
-        'NAME': name
-    }
+    args = defaultArgs()
+    args.update(camera.recognizeFace())
     return render(request, 'home.html', args)
-    
+
 
 def signUp(request, *args, **kwargs):
-    ret = False
+    args = defaultArgs()
+    args['pressedSignUp'] = True
+
     if request.method == 'POST':
         data = request.POST
         form = VitazForm(data)
         if form.is_valid():
             name = data['popup']
             if name:
-                ret = camera.saveFace(name)
-                if not ret:
+                args.update(camera.saveFace(name))
+                if not args['error']:
                     return redirect('home')
 
     form = VitazForm()
-    args= { 
-        'ret': ret,
-        'showAccess': False,
-        'access': False,
-        'pop': True,
-        'form': form
-    }
+    args['form'] = form
     return render(request, 'home.html', args)
-
-
