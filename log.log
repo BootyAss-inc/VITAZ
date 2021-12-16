@@ -1,3 +1,5 @@
 INFO:django.utils.autoreload:D:\BMSTU\asvt\VITAZ\vitaz\camera.py changed, reloading.
 INFO:root:[17:48:30]: camera loaded
 INFO:root:[17:48:30]: server started
+INFO:root:[18:15:04]: camera loaded
+INFO:root:[18:15:04]: server started
