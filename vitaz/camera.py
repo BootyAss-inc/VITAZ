@@ -2,6 +2,7 @@ import cv2
 import os
 import shutil
 import numpy as np
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D
@@ -14,7 +15,7 @@ from . import logger
 
 
 class Camera(object):
-    camera = cv2.VideoCapture(0)
+    camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
     model = Sequential()
     emotDict = {0: "Angry", 1: "Disgusted", 2: "Fearful",
@@ -28,6 +29,8 @@ class Camera(object):
     datasetSize = 30
     imgSize = (150, 150)
     showFace = True
+
+    confidence = (30, 90)
 
     nameDirection = dict()
 
@@ -58,13 +61,16 @@ class Camera(object):
         self.model.load_weights('model.h5')
         logger.saveInfo('camera loaded')
 
+
     def readFrame(self):
-        _, frame = self.camera.read()
-        return frame
+        ret, frame = self.camera.read()
+        return ret, frame
 
     def getCameraFrame(self):
         while True:
-            frame = self.readFrame()
+            ret, frame = self.readFrame()
+            if not ret:
+                continue
             if self.showFace:
                 frame = self.detectFace(frame)
             _, jpeg = cv2.imencode('.jpeg', frame)
@@ -95,8 +101,12 @@ class Camera(object):
         if not os.path.isdir(path):
             os.mkdir(path)
 
-        for c in range(self.datasetSize):
-            frame = self.readFrame()
+        c = 0
+        while c < self.datasetSize:
+            ret, frame = self.readFrame()
+            if not ret:
+                continue
+
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
             if len(faces) == 0:
@@ -113,11 +123,13 @@ class Camera(object):
                     'error': True,
                     'multipleFaces': True
                 }
+
             for (x, y, w, h) in faces:
                 face = gray[y:y + h, x:x + w]
                 faceResized = cv2.resize(face, self.imgSize)
                 cv2.imwrite(f'{path}/{c}.jpeg', faceResized)
             key = cv2.waitKey(10)
+            c += 1
 
         self.nameDirection[Name] = True
         logger.saveInfo(f'{Name} saved')
@@ -125,8 +137,15 @@ class Camera(object):
             'error': False
         }
 
+
     def recognizeFace(self):
-        frame = self.readFrame()
+        ret, frame = self.readFrame()
+        if not ret:
+            logger.saveError('no frame detected')
+            return {
+                'error': True,
+                'noFaceDetected': True
+            }
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
         if len(faces) == 0:
@@ -168,7 +187,7 @@ class Camera(object):
             faceResized = cv2.resize(face, self.imgSize)
             id, conf = self.recognizer.predict(faceResized)
 
-            if conf > 40 and conf < 80:
+            if conf > self.confidence[0] and conf < self.confidence[1]:
                 userName = names[id]
                 direction = self.nameDirection.get(userName)
                 if direction == None:
