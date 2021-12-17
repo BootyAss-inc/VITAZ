@@ -25,7 +25,8 @@
     </div>
 
     <div class="camera-container">
-        <img class="camera-preview" src="{% url 'cameraFrame' %}">
+        <img class="camera-preview" src="{% url 'inCameraFrame' %}">
+        <img class="camera-preview" src="{% url 'outCameraFrame' %}">
     </div>
 
     <!-- ON SIGN UP -->
@@ -39,11 +40,11 @@
         {% if error %}
             {% if noFaceDetected %}
                 <div class="text-no">no face detected</div>
-            {% endif %} 
+            {% endif %}
             {% if multipleFaces %}
                 <div class="text-no">multiple faces detected</div>
-            {% endif %} 
-        {% endif %} 
+            {% endif %}
+        {% endif %}
 
     {% else %}
 
@@ -59,10 +60,10 @@
         {% if error %}
             {% if noFaceDetected %}
                 <div class="text-no">no face detected</div>
-            {% endif %} 
+            {% endif %}
             {% if multipleFaces %}
                 <div class="text-no">multiple faces detected</div>
-            {% endif %} 
+            {% endif %}
         {% else %}
 
         <!-- ON SIGN IN -->
@@ -72,12 +73,12 @@
                         <div class="text-yes">hello, {{ userName }}</div>
                     {% else %}
                         <div class="text-yes">good bye, {{ userName }}</div>
-                    {% endif %} 
+                    {% endif %}
                 {% else %}
                     <div class="text-no">access denied</div>
-                {% endif %} 
-            {% endif %} 
-        {% endif %} 
+                {% endif %}
+            {% endif %}
+        {% endif %}
 
     {% endif %}
 

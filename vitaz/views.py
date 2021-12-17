@@ -5,7 +5,9 @@ from django.forms import Form, TextInput
 from .camera import Camera
 from . import logger
 
-camera = Camera()
+
+inCamera = Camera(0)
+outCamera = Camera(1)
 
 
 class VitazForm(Form):
@@ -40,16 +42,22 @@ def home(request, *args, **kwargs):
     return render(request, 'home.html', args)
 
 
-def cameraFrame(request, *args, **kwargs):
+def inCameraFrame(request, *args, **kwargs):
     return StreamingHttpResponse(
-        camera.getCameraFrame(),
+        inCamera.getCameraFrame(),
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )
+
+def outCameraFrame(request, *args, **kwargs):
+    return StreamingHttpResponse(
+        outCamera.getCameraFrame(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
 
 def signIn(request, *args, **kwargs):
     args = defaultArgs()
-    args.update(camera.recognizeFace())
+    args.update(inCamera.recognizeFace())
     return render(request, 'home.html', args)
 
 
@@ -63,7 +71,7 @@ def signUp(request, *args, **kwargs):
         if form.is_valid():
             name = data['popup']
             if name:
-                args.update(camera.saveFace(name))
+                args.update(inCamera.saveFace(name))
                 if not args['error']:
                     return redirect('home')
 
