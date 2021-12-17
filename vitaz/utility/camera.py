@@ -25,17 +25,14 @@ class Camera(object):
     datasetsDir = 'datasets'
     datasetSize = 30
     imgSize = (150, 150)
-    showFace = True
 
     confidence = (30, 90)
 
-    nameDirection = dict()
-
-    def __init__(self, index):
+    def __init__(self, index=0, showFace=True):
         self.index = index
         self.camera = cv2.VideoCapture(self.index, cv2.CAP_DSHOW)
         self.model = Sequential(name=f'model{index}')
-
+        self.showFace = showFace
         if not os.path.isdir(self.datasetsDir):
             os.mkdir(self.datasetsDir)
         self.loadmodel()
@@ -60,8 +57,7 @@ class Camera(object):
         self.model.add(Dense(7, activation='softmax'))
 
         self.model.load_weights('model.h5')
-        logger.saveInfo('camera loaded')
-
+        logger.saveInfo(f'camera {self.index} loaded')
 
     def readFrame(self):
         ret, frame = self.camera.read()
@@ -79,22 +75,22 @@ class Camera(object):
                    b'content-type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
 
     def detectFace(self, frame):
-        """
-        Returns frame with square on faces and emotions
-        """
         UI_COLOR = (0, 150, 0)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
         for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x + w, y + h), UI_COLOR, 1)
             ROI = gray[y:y + h, x:x + w]
-            croppedImg = np.expand_dims(np.expand_dims(
-                cv2.resize(ROI, (48, 48)), -1), 0)
+            croppedImg = np.expand_dims(
+                np.expand_dims(cv2.resize(ROI, (48, 48)), -1),
+                0
+            )
             emotPredictions = self.model.predict(croppedImg)
             emotMaxIndex = int(np.argmax(emotPredictions))
-            cv2.putText(frame, self.emotDict[emotMaxIndex], (x+20, y-60),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, UI_COLOR, 1, cv2.LINE_AA)
-
+            cv2.putText(
+                frame, self.emotDict[emotMaxIndex], (x+20, y-60),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, UI_COLOR, 1, cv2.LINE_AA
+            )
         return frame
 
     def saveFace(self, Name):
@@ -112,14 +108,15 @@ class Camera(object):
             faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
             if len(faces) == 0:
                 shutil.rmtree(path)
-                logger.saveError('no face detected')
+                logger.saveError(f'Camera {self.index}: no face detected')
                 return {
                     'error': True,
                     'noFaceDetected': True
                 }
             if len(faces) > 1:
                 shutil.rmtree(path)
-                logger.saveError('multiple faces detected')
+                logger.saveError(
+                    f'Camera {self.index}: multiple faces detected')
                 return {
                     'error': True,
                     'multipleFaces': True
@@ -131,18 +128,15 @@ class Camera(object):
                 cv2.imwrite(f'{path}/{c}.jpeg', faceResized)
             key = cv2.waitKey(10)
             c += 1
-
-        self.nameDirection[Name] = True
-        logger.saveInfo(f'{Name} saved')
+        logger.saveInfo(f'Camera {self.index}: "{Name}" saved')
         return {
             'error': False
         }
 
-
     def recognizeFace(self):
         ret, frame = self.readFrame()
         if not ret:
-            logger.saveError('no frame detected')
+            logger.saveError(f'Camera {self.index}: no frame detected')
             return {
                 'error': True,
                 'noFaceDetected': True
@@ -150,13 +144,13 @@ class Camera(object):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
         if len(faces) == 0:
-            logger.saveError('no face detected')
+            logger.saveError(f'Camera {self.index}: no face detected')
             return {
                 'error': True,
                 'noFaceDetected': True
             }
         if len(faces) > 1:
-            logger.saveError('multiple faces detected')
+            logger.saveError(f'Camera {self.index}: multiple faces detected')
             return {
                 'error': True,
                 'multipleFaces': True
@@ -174,10 +168,11 @@ class Camera(object):
                     labels.append(int(label))
                 id += 1
         if not images or not labels:
-            logger.saveError('no datasets found')
+            logger.saveError(f'Camera {self.index}: no datasets found')
             return {
                 'showAccess': True,
-                'accessGranted': False
+                'accessGranted': False,
+                'userName': None
             }
 
         (images, labels) = [np.array(lis) for lis in [images, labels]]
@@ -190,24 +185,15 @@ class Camera(object):
 
             if conf > self.confidence[0] and conf < self.confidence[1]:
                 userName = names[id]
-                direction = self.nameDirection.get(userName)
-                if direction == None:
-                    direction = True
-                self.nameDirection[userName] = not direction
-                strDirection = 'entered' if direction else 'left'
-                logger.saveInfo(f'{userName} {strDirection}')
                 return {
                     'showAccess': True,
                     'accessGranted': True,
-                    'userName': userName,
-                    'direction': direction
+                    'userName': userName
                 }
             else:
-                logger.saveInfo('access denied')
+                logger.saveInfo(f'Camera {self.index}: access denied')
                 return {
                     'showAccess': True,
-                    'accessGranted': False
+                    'accessGranted': False,
+                    'userName': None
                 }
-
-# True - еще не вошел
-# False - уже вошел

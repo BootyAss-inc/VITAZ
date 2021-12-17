@@ -13,6 +13,5 @@ def testDevice(source):
         cv2.destroyAllWindows()
 
 
-
 for i in range(100):
-    testDevice(i) # no printout
+    testDevice(i)

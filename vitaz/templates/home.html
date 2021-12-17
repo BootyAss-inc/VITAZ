@@ -69,16 +69,20 @@
             {% endif %}
         {% else %}
 
-        <!-- ON SIGN IN -->
+        <!-- ON SIGN IN/OUT -->
             {% if showAccess %}
-                {% if accessGranted %}
-                    {% if direction %}
-                        <div class="text-yes">access granted</div>
-                    {% else %}
-                        <div class="text-yes">access granted</div>
+                {% if doublePass %}
+                    {% if doubleDirection %}
+                        <div class="text-no">{{ userName }} already entered</div>
+                    {% else%}
+                        <div class="text-no">{{ userName }} already left</div>
                     {% endif %}
                 {% else %}
-                    <div class="text-no">access denied</div>
+                    {% if accessGranted %}
+                        <div class="text-yes">access granted {{ userName }}</div>
+                    {% else %}
+                        <div class="text-no">access denied</div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endif %}

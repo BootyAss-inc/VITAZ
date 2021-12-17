@@ -1,0 +1,75 @@
+INFO:root:[20:00:19]: camera 0 loaded
+INFO:root:[20:00:20]: camera 1 loaded
+INFO:root:[20:00:20]: server started
+ERROR:root:[20:00:33]: no face detected
+ERROR:root:[20:00:41]: no face detected
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camera.py changed, reloading.
+INFO:root:[20:01:12]: camera 0 loaded
+INFO:root:[20:01:12]: camera 1 loaded
+INFO:root:[20:01:12]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camera.py changed, reloading.
+INFO:root:[20:02:32]: camera 0 loaded
+INFO:root:[20:02:33]: camera 1 loaded
+INFO:root:[20:02:33]: server started
+ERROR:root:[20:02:57]: Camera 0: no face detected
+ERROR:root:[20:03:01]: Camera 1: no face detected
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:03:36]: camera 0 loaded
+INFO:root:[20:03:36]: camera 1 loaded
+INFO:root:[20:03:36]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:04:20]: camera 0 loaded
+INFO:root:[20:04:21]: camera 1 loaded
+INFO:root:[20:04:21]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:07:29]: camera 0 loaded
+INFO:root:[20:07:29]: camera 1 loaded
+INFO:root:[20:07:29]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:09:40]: camera 0 loaded
+INFO:root:[20:09:40]: camera 1 loaded
+INFO:root:[20:09:40]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:10:07]: camera 0 loaded
+INFO:root:[20:10:08]: camera 1 loaded
+INFO:root:[20:10:08]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\views.py changed, reloading.
+INFO:root:[20:10:17]: camera 0 loaded
+INFO:root:[20:10:17]: camera 1 loaded
+INFO:root:[20:10:17]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:11:09]: camera 0 loaded
+INFO:root:[20:11:09]: camera 1 loaded
+INFO:root:[20:11:09]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:11:58]: camera 0 loaded
+INFO:root:[20:11:58]: camera 1 loaded
+INFO:root:[20:11:58]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:12:06]: camera 0 loaded
+INFO:root:[20:12:06]: camera 1 loaded
+INFO:root:[20:12:06]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:12:28]: camera 0 loaded
+INFO:root:[20:12:28]: camera 1 loaded
+INFO:root:[20:12:28]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:13:14]: camera 0 loaded
+INFO:root:[20:13:14]: camera 1 loaded
+INFO:root:[20:13:14]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\views.py changed, reloading.
+INFO:root:[20:13:22]: camera 0 loaded
+INFO:root:[20:13:22]: camera 1 loaded
+INFO:root:[20:13:22]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:16:47]: camera 0 loaded
+INFO:root:[20:16:47]: camera 1 loaded
+INFO:root:[20:16:47]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\utility\camerahandler.py changed, reloading.
+INFO:root:[20:17:08]: camera 0 loaded
+INFO:root:[20:17:08]: camera 1 loaded
+INFO:root:[20:17:08]: server started
+INFO:django.utils.autoreload:D:\BMSTU\asvt\doublecam\vitaz\views.py changed, reloading.
+INFO:root:[20:17:18]: camera 0 loaded
+INFO:root:[20:17:18]: camera 1 loaded
+INFO:root:[20:17:18]: server started

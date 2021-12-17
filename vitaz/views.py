@@ -2,13 +2,12 @@ from django.shortcuts import redirect, render
 from django.http.response import StreamingHttpResponse
 from django.forms import Form, TextInput
 
-from .camera import Camera
-from . import logger
+from .utility.camera import Camera
+from .utility.camerahandler import CameraHandler
+from .utility import logger
 
 
-inCamera = Camera(0)
-outCamera = Camera(1)
-
+cameraHandler = CameraHandler()
 
 logger.saveInfo('server started')
 
@@ -30,6 +29,8 @@ def defaultArgs():
         'noFaceDetected': False,
         'showAcces': False,
         'accessGranted': False,
+        'doublePass': False,
+        'doubleDirection': False,
         'direction': False,
         'pressedSignUp': False,
         'userName': None
@@ -44,25 +45,27 @@ def home(request, *args, **kwargs):
 
 def inCameraFrame(request, *args, **kwargs):
     return StreamingHttpResponse(
-        inCamera.getCameraFrame(),
+        cameraHandler.getInCameraFrame(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
+
 def outCameraFrame(request, *args, **kwargs):
     return StreamingHttpResponse(
-        outCamera.getCameraFrame(),
+        cameraHandler.getOutCameraFrame(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
 
 def signIn(request, *args, **kwargs):
     args = defaultArgs()
-    args.update(inCamera.recognizeFace())
+    args.update(cameraHandler.inCameraRecognizeFace())
     return render(request, 'home.html', args)
+
 
 def signOut(request, *args, **kwargs):
     args = defaultArgs()
-    args.update(outCamera.recognizeFace())
+    args.update(cameraHandler.outCameraRecognizeFace())
     return render(request, 'home.html', args)
 
 
@@ -76,7 +79,7 @@ def signUp(request, *args, **kwargs):
         if form.is_valid():
             name = data['popup']
             if name:
-                args.update(inCamera.saveFace(name))
+                args.update(cameraHandler.inCameraSaveFace(name))
                 if not args['error']:
                     return redirect('home')
 
