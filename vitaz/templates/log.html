@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- import font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono');
+    </style>
+
+    <!-- tab icon -->
+    <link rel="shortcut icon" type="image/x-ico" href="{% static 'logo_black.ico' %}">
+
+    <meta charset="utf-8">
+    <meta name="author" content="BootyAss-inc">
+    <meta name="description" content="Server for detecting faces and emotions with unlocking system.">
+    <title>VITAZ</title>
+</head>
+
+<body>
+    <div class="header">
+        <a class="app-name" href="{% url 'home' %}">VITAZ</a>
+        <p class="aut-name">by Pershaev & Evula</p>
+    </div>
+
+    <div class="log-container">
+        {% if not data %}
+            <div class="text-no">log empty</div>
+        {% else %}
+            {% for line in data %}
+            <div class="log">{{ line }}</div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</body>
+
+</html>

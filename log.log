@@ -1,33 +1,17 @@
-INFO:root:[20:36:04]: camera 0 loaded
-INFO:root:[20:36:04]: camera 1 loaded
-INFO:root:[20:36:04]: server started
-INFO:root:[20:36:24]: Camera 0: Evula entered
-INFO:root:[20:36:27]: Camera 0: Evula already entered
-INFO:root:[20:36:56]: Camera 0: Evula already entered
-ERROR:root:[20:37:00]: Camera 0: no face detected
-INFO:root:[20:37:13]: Camera 0: Evula already entered
-INFO:root:[20:37:15]: Camera 0: Evula already entered
-ERROR:root:[20:37:18]: Camera 0: no face detected
-INFO:root:[20:37:20]: Camera 0: Evula already entered
-INFO:root:[20:37:23]: Camera 0: Evula already entered
-INFO:root:[20:37:27]: Camera 0: Evula already entered
-ERROR:root:[20:37:30]: Camera 0: no face detected
-INFO:root:[20:37:39]: Camera 1: access denied
-INFO:root:[20:37:43]: Camera 1: access denied
-INFO:root:[20:37:56]: Camera 1: access denied
-INFO:root:[20:38:00]: Camera 1: access denied
-INFO:root:[20:38:08]: Camera 1: access denied
-INFO:root:[20:38:11]: Camera 1: access denied
-INFO:root:[20:38:14]: Camera 1: access denied
-INFO:root:[20:38:16]: Camera 0: access denied
-INFO:root:[20:38:20]: Camera 0: Evula already entered
-ERROR:root:[20:38:30]: Camera 1: no face detected
-INFO:root:[20:38:32]: Camera 1: access denied
-INFO:root:[20:38:39]: Camera 1: access denied
-INFO:root:[20:38:46]: Camera 1: access denied
-INFO:root:[20:38:51]: Camera 1: access denied
-INFO:root:[20:39:01]: Camera 0: Evula left
-INFO:root:[20:39:05]: Camera 0: Evula already left
-INFO:root:[20:39:07]: Camera 0: Evula already left
-ERROR:root:[20:40:07]: Camera 1: no face detected
-INFO:django.utils.autoreload:D:\codes\doublecam\vitaz\utility\logger.py changed, reloading.
+[17/12/21][23:50:28]: Camera setup started
+[17/12/21][23:50:31]: camera 0 loaded
+[17/12/21][23:50:31]: Camera 0 started
+[17/12/21][23:50:31]: camera 1 loaded
+[17/12/21][23:50:31]: Camera 1 started
+[17/12/21][23:50:31]: Server started
+[17/12/21][23:51:05]: D:\codes\doublecam\vitaz\views.py changed, reloading.
+[17/12/21][23:51:12]: Camera setup started
+[17/12/21][23:51:13]: camera 0 loaded
+[17/12/21][23:51:13]: Camera 0 started
+[17/12/21][23:51:13]: camera 1 loaded
+[17/12/21][23:51:13]: Camera 1 started
+[17/12/21][23:51:28]: D:\codes\doublecam\vitaz\utility\camera.py changed, reloading.
+[17/12/21][23:51:34]: Camera setup started
+[17/12/21][23:51:35]: Camera 0 loaded
+[17/12/21][23:51:35]: Camera 1 loaded
+[17/12/21][23:51:35]: Server started

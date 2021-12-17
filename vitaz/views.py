@@ -9,8 +9,6 @@ from .utility import logger
 
 cameraHandler = CameraHandler()
 
-logger.saveInfo('server started')
-
 
 class VitazForm(Form):
     fields = ['name']
@@ -86,3 +84,12 @@ def signUp(request, *args, **kwargs):
     form = VitazForm()
     args['form'] = form
     return render(request, 'home.html', args)
+
+
+def log(request, *args, **kwargs):
+    with open('log.log', 'r') as fileHandle:
+        data = fileHandle.readlines()
+    args = {
+        'data': data
+    }
+    return render(request, 'log.html', args)

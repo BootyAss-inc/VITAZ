@@ -15,4 +15,6 @@ urlpatterns = [
     path('signOut', views.signOut, name='signOut'),
     # on signUp button click
     path('signUp', views.signUp, name='signUp'),
+    # display log file
+    path('log', views.log, name='log'),
     ]

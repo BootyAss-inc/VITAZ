@@ -4,9 +4,12 @@ from . import logger
 
 class CameraHandler(object):
     def __init__(self):
+        logger.saveMsg('Camera setup started')
         self.inCamera = Camera(index=0, showFace=True)
         self.outCamera = Camera(index=1, showFace=True)
         self.enteredNames = {}
+        logger.saveMsg('Server started')
+
 
     def getInCameraFrame(self):
         return self.inCamera.getCameraFrame()
@@ -26,11 +29,11 @@ class CameraHandler(object):
         if self.enteredNames.get(userName):
             ret['doublePass'] = True
             ret['doubleDirection'] = True
-            logger.saveInfo(f'Camera 0: {userName} already entered')
+            logger.saveMsg(f'Camera 0: {userName} already entered')
             return ret
 
         self.enteredNames[userName] = True
-        logger.saveInfo(f'Camera 0: {userName} entered')
+        logger.saveMsg(f'Camera 0: {userName} entered')
         return ret
 
     def outCameraRecognizeFace(self):
@@ -45,11 +48,11 @@ class CameraHandler(object):
         if self.enteredNames.get(userName) == False:
             ret['doublePass'] = True
             ret['doubleDirection'] = False
-            logger.saveInfo(f'Camera 0: {userName} already left')
+            logger.saveMsg(f'Camera 0: {userName} already left')
             return ret
 
         self.enteredNames[userName] = False
-        logger.saveInfo(f'Camera 0: {userName} left')
+        logger.saveMsg(f'Camera 0: {userName} left')
         return ret
 
     def inCameraSaveFace(self):

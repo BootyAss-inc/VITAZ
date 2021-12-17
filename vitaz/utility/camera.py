@@ -57,7 +57,7 @@ class Camera(object):
         self.model.add(Dense(7, activation='softmax'))
 
         self.model.load_weights('model.h5')
-        logger.saveInfo(f'camera {self.index} loaded')
+        logger.saveMsg(f'Camera {self.index} loaded')
 
     def readFrame(self):
         ret, frame = self.camera.read()
@@ -108,14 +108,14 @@ class Camera(object):
             faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
             if len(faces) == 0:
                 shutil.rmtree(path)
-                logger.saveError(f'Camera {self.index}: no face detected')
+                logger.saveMsg(f'Camera {self.index}: no face detected')
                 return {
                     'error': True,
                     'noFaceDetected': True
                 }
             if len(faces) > 1:
                 shutil.rmtree(path)
-                logger.saveError(
+                logger.saveMsg(
                     f'Camera {self.index}: multiple faces detected')
                 return {
                     'error': True,
@@ -128,7 +128,7 @@ class Camera(object):
                 cv2.imwrite(f'{path}/{c}.jpeg', faceResized)
             key = cv2.waitKey(10)
             c += 1
-        logger.saveInfo(f'Camera {self.index}: "{Name}" saved')
+        logger.saveMsg(f'Camera {self.index}: "{Name}" saved')
         return {
             'error': False
         }
@@ -136,7 +136,7 @@ class Camera(object):
     def recognizeFace(self):
         ret, frame = self.readFrame()
         if not ret:
-            logger.saveError(f'Camera {self.index}: no frame detected')
+            logger.saveMsg(f'Camera {self.index}: no frame detected')
             return {
                 'error': True,
                 'noFaceDetected': True
@@ -144,13 +144,13 @@ class Camera(object):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = self.faceCascade.detectMultiScale(gray, 1.3, 4)
         if len(faces) == 0:
-            logger.saveError(f'Camera {self.index}: no face detected')
+            logger.saveMsg(f'Camera {self.index}: no face detected')
             return {
                 'error': True,
                 'noFaceDetected': True
             }
         if len(faces) > 1:
-            logger.saveError(f'Camera {self.index}: multiple faces detected')
+            logger.saveMsg(f'Camera {self.index}: multiple faces detected')
             return {
                 'error': True,
                 'multipleFaces': True
@@ -168,7 +168,7 @@ class Camera(object):
                     labels.append(int(label))
                 id += 1
         if not images or not labels:
-            logger.saveError(f'Camera {self.index}: no datasets found')
+            logger.saveMsg(f'Camera {self.index}: no datasets found')
             return {
                 'showAccess': True,
                 'accessGranted': False,
@@ -191,7 +191,7 @@ class Camera(object):
                     'userName': userName
                 }
             else:
-                logger.saveInfo(f'Camera {self.index}: access denied')
+                logger.saveMsg(f'Camera {self.index}: access denied')
                 return {
                     'showAccess': True,
                     'accessGranted': False,

@@ -192,3 +192,19 @@ body {
 .img:hover {
     transform: scale(1.1);
 }
+
+.log-container {
+    margin: 50px;
+}
+
+.log {
+    margin: 0;
+    padding: 0;
+    /* STYLE */
+    font-family: 'Ubuntu Mono', monospace;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 100;
+    /*letter-spacing: 1px;*/
+    color: #E2E2E2;
+}
