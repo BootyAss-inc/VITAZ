@@ -11,8 +11,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 25px;
     /* FONT */
     color: white;
 }
@@ -56,13 +54,14 @@ body {
 
 .camera-preview {
     border-radius: 10px;
+    padding: 50px;
 }
 
 .button-container {
     /* POSITION AT CENTER */
     display: flex;
     justify-content: space-around;
-    width: 500px;
+    width: 1150px;
     height: 85px;
     margin: 0 auto;
     padding: 0;
@@ -72,7 +71,7 @@ body {
     /* SIZE OF BUTTON */
     margin: 0;
     padding: 0;
-    width: 200px;
+    width: 220px;
     height: 100%;
     /* STYLE */
     background-color: rgba(255, 255, 255, 0);

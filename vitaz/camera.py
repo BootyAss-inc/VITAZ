@@ -15,7 +15,6 @@ from . import logger
 
 
 class Camera(object):
-    model = Sequential()
     emotDict = {0: "Angry", 1: "Disgusted", 2: "Fearful",
                 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
@@ -26,14 +25,16 @@ class Camera(object):
     datasetsDir = 'datasets'
     datasetSize = 30
     imgSize = (150, 150)
-    showFace = False
+    showFace = True
 
     confidence = (30, 90)
 
     nameDirection = dict()
 
     def __init__(self, index):
-        self.camera = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+        self.index = index
+        self.camera = cv2.VideoCapture(self.index, cv2.CAP_DSHOW)
+        self.model = Sequential(name=f'model{index}')
 
         if not os.path.isdir(self.datasetsDir):
             os.mkdir(self.datasetsDir)

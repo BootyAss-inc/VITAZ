@@ -10,6 +10,9 @@ inCamera = Camera(0)
 outCamera = Camera(1)
 
 
+logger.saveInfo('server started')
+
+
 class VitazForm(Form):
     fields = ['name']
     widgets = {
@@ -34,9 +37,6 @@ def defaultArgs():
     return args
 
 
-logger.saveInfo('server started')
-
-
 def home(request, *args, **kwargs):
     args = defaultArgs()
     return render(request, 'home.html', args)
@@ -58,6 +58,11 @@ def outCameraFrame(request, *args, **kwargs):
 def signIn(request, *args, **kwargs):
     args = defaultArgs()
     args.update(inCamera.recognizeFace())
+    return render(request, 'home.html', args)
+
+def signOut(request, *args, **kwargs):
+    args = defaultArgs()
+    args.update(outCamera.recognizeFace())
     return render(request, 'home.html', args)
 
 

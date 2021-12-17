@@ -50,10 +50,13 @@
 
         <div class="button-container">
             <button class="button">
-                <a class="button-text" href="{% url 'signIn' %}">Sign in</a>
+                <a class="button-text" href="{% url 'signIn' %}">sign in</a>
             </button>
             <button class="button">
-                <a class="button-text" href="{% url 'signUp' %}">Sign up</a>
+                <a class="button-text" href="{% url 'signUp' %}">sign up</a>
+            </button>
+            <button class="button">
+                <a class="button-text" href="{% url 'signOut' %}">sign out</a>
             </button>
         </div>
 
@@ -70,9 +73,9 @@
             {% if showAccess %}
                 {% if accessGranted %}
                     {% if direction %}
-                        <div class="text-yes">hello, {{ userName }}</div>
+                        <div class="text-yes">access granted</div>
                     {% else %}
-                        <div class="text-yes">good bye, {{ userName }}</div>
+                        <div class="text-yes">access granted</div>
                     {% endif %}
                 {% else %}
                     <div class="text-no">access denied</div>
@@ -83,7 +86,7 @@
     {% endif %}
 
 
-    <a class="Link" href="https://github.com/bootyass-inc/VITAZ" target="_blank"><img class="img" src="/static/github.png"></a>
+    <!-- <a class="Link" href="https://github.com/bootyass-inc/VITAZ" target="_blank"><img class="img" src="/static/github.png"></a> -->
 
 </body>
 
