@@ -2,10 +2,12 @@ from django.shortcuts import redirect, render
 from django.http.response import StreamingHttpResponse
 from django.forms import Form, TextInput
 
-from .camera import Camera
-from . import logger
+from .utility.camera import Camera
+from .utility.camerahandler import CameraHandler
+from .utility import logger
 
-camera = Camera()
+
+cameraHandler = CameraHandler()
 
 
 class VitazForm(Form):
@@ -25,6 +27,8 @@ def defaultArgs():
         'noFaceDetected': False,
         'showAcces': False,
         'accessGranted': False,
+        'doublePass': False,
+        'doubleDirection': False,
         'direction': False,
         'pressedSignUp': False,
         'userName': None
@@ -32,24 +36,34 @@ def defaultArgs():
     return args
 
 
-logger.saveInfo('server started')
-
-
 def home(request, *args, **kwargs):
     args = defaultArgs()
     return render(request, 'home.html', args)
 
 
-def cameraFrame(request, *args, **kwargs):
+def inCameraFrame(request, *args, **kwargs):
     return StreamingHttpResponse(
-        camera.getCameraFrame(),
+        cameraHandler.getInCameraFrame(),
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )
+
+
+def outCameraFrame(request, *args, **kwargs):
+    return StreamingHttpResponse(
+        cameraHandler.getOutCameraFrame(),
         content_type='multipart/x-mixed-replace; boundary=frame'
     )
 
 
 def signIn(request, *args, **kwargs):
     args = defaultArgs()
-    args.update(camera.recognizeFace())
+    args.update(cameraHandler.inCameraRecognizeFace())
+    return render(request, 'home.html', args)
+
+
+def signOut(request, *args, **kwargs):
+    args = defaultArgs()
+    args.update(cameraHandler.outCameraRecognizeFace())
     return render(request, 'home.html', args)
 
 
@@ -63,10 +77,19 @@ def signUp(request, *args, **kwargs):
         if form.is_valid():
             name = data['popup']
             if name:
-                args.update(camera.saveFace(name))
+                args.update(cameraHandler.inCameraSaveFace(name))
                 if not args['error']:
                     return redirect('home')
 
     form = VitazForm()
     args['form'] = form
     return render(request, 'home.html', args)
+
+
+def log(request, *args, **kwargs):
+    with open('log.log', 'r') as fileHandle:
+        data = fileHandle.readlines()
+    args = {
+        'data': data
+    }
+    return render(request, 'log.html', args)
