@@ -1,4 +1,5 @@
 from .camera import Camera
+from . import logger
 
 
 class CameraHandler(object):
@@ -25,9 +26,11 @@ class CameraHandler(object):
         if self.enteredNames.get(userName):
             ret['doublePass'] = True
             ret['doubleDirection'] = True
+            logger.saveInfo(f'Camera 0: {userName} already entered')
             return ret
 
         self.enteredNames[userName] = True
+        logger.saveInfo(f'Camera 0: {userName} entered')
         return ret
 
     def outCameraRecognizeFace(self):
@@ -42,9 +45,11 @@ class CameraHandler(object):
         if self.enteredNames.get(userName) == False:
             ret['doublePass'] = True
             ret['doubleDirection'] = False
+            logger.saveInfo(f'Camera 0: {userName} already left')
             return ret
 
         self.enteredNames[userName] = False
+        logger.saveInfo(f'Camera 0: {userName} left')
         return ret
 
     def inCameraSaveFace(self):

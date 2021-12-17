@@ -4,7 +4,7 @@ from datetime import datetime
 
 def saveInfo(msg):
     logging.basicConfig(filename='log.log', level=logging.INFO)
-    date = datetime.now().strftime('[%H:%M:%S]: ')
+    date = datetime.now().strftime(' [%H:%M:%S]: ')
     logging.info(date + msg)
 
 
