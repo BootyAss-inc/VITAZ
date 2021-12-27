@@ -15,13 +15,13 @@ args = parser.parse_args()
 
 drawSquare = bool(args.drawSquare)
 if args.mode == 'admin':
-    cams = [Camera(index=i, drawSquareFace=drawSquare) for i in range(2)]
+    cams = {i: Camera(index=i, drawSquareFace=drawSquare) for i in range(2)}
 elif args.mode == 'in':
-    cams = [Camera(index=0, drawSquareFace=drawSquare)]
+    cams = {0: Camera(index=0, drawSquareFace=drawSquare)}
 elif args.mode == 'out':
-    cams = [Camera(index=1, drawSquareFace=drawSquare)]
+    cams = {1: Camera(index=1, drawSquareFace=drawSquare)}
 elif args.mode == 'save':
-    cams = [Camera(index=0, drawSquareFace=drawSquare)]
+    cams = {0: Camera(index=0, drawSquareFace=drawSquare)}
 else:
     print('Wrong mode')
     exit()
