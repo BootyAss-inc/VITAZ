@@ -17,7 +17,7 @@ parser.add_argument("-D",   dest="datasets",    type=str,   default='datasets')
 args = parser.parse_args()
 
 showCam = bool(args.showCam)
-drawSquare = bool(args.drawSquare)
+drawSquare = bool(args.drawSquare) and showCam
 datasetsDir = args.datasets
 
 if args.mode == 'admin':
@@ -57,6 +57,9 @@ def proccess(cam: Camera, mode: str, showCam: bool) -> None:
 
     # Last printed info
     info = ''
+    iterationsToAprove = 5
+    i = 0
+    aproved = False
 
     while True:
         ret, frame = cam.readFrame()
@@ -73,8 +76,19 @@ def proccess(cam: Camera, mode: str, showCam: bool) -> None:
             info = txt
             print(info)
 
+        # check if face was recognized for some frames in row
+        if ret:
+            aproved = False
+            i = 0
+
+        else:
+            i += 1
+            if i >= iterationsToAprove:
+                i = iterationsToAprove
+                aproved = True
+
         # Show Cam Frame or Access color
-        args = [cam.idx, ret]
+        args = [cam.idx, aproved]
         if showCam:
             args.append(frame)
         winMngr.showResult(*args)

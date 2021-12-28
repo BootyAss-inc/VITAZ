@@ -16,10 +16,10 @@ class WindowManager(object):
 
     def showResult(self, idx, access, frame=None):
         color = (0, 255, 0) if access else (0, 0, 255)
-        if frame:
-            result = cv2.rectangle(frame, (0, 0), (80, 80), color, -1)
-        else:
+        if frame is None:
             result = np.zeros((300, 300, 3), np.uint8)
             result[:] = color
+        else:
+            result = cv2.rectangle(frame, (0, 0), (80, 80), color, -1)
 
         cv2.imshow(self.windows[idx], result)
