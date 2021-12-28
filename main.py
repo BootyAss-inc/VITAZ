@@ -1,30 +1,42 @@
 import cv2
 import argparse
 import threading
-import numpy as np
 from datetime import datetime
 from camera import Camera
+from windowManager import WindowManager
+
+
+winMngr = WindowManager()
 
 
 parser = argparse.ArgumentParser(description="Vitaz script")
-parser.add_argument("-m", dest="mode", type=str,
-                    default='admin', required=True)
-parser.add_argument("-d", dest="drawSquare", type=int,
-                    default=0)
+parser.add_argument("-m",   dest="mode",        type=str,   default='admin')
+parser.add_argument("-s",   dest="showCam",     type=int,   default=0)
+parser.add_argument("-d",   dest="drawSquare",  type=int,   default=0)
+parser.add_argument("-D",   dest="datasets",    type=str,   default='datasets')
 args = parser.parse_args()
 
+showCam = bool(args.showCam)
 drawSquare = bool(args.drawSquare)
+datasetsDir = args.datasets
+
 if args.mode == 'admin':
-    cams = {i: Camera(index=i, drawSquareFace=drawSquare) for i in range(2)}
-elif args.mode == 'in':
-    cams = {0: Camera(index=0, drawSquareFace=drawSquare)}
-elif args.mode == 'out':
-    cams = {1: Camera(index=1, drawSquareFace=drawSquare)}
-elif args.mode == 'save':
-    cams = {0: Camera(index=0, drawSquareFace=drawSquare)}
+    cams = {
+        i: Camera(index=i, drawSquareFace=drawSquare, datasetsDir=datasetsDir)
+        for i in range(2)
+    }
 else:
-    print('Wrong mode')
-    exit()
+    if args.mode == 'in':
+        i = 0
+    elif args.mode == 'out':
+        i = 1
+    elif args.mode == 'save':
+        i = 0
+    else:
+        print('Wrong mode')
+        exit()
+    cams = {i: Camera(index=i, drawSquareFace=drawSquare,
+                      datasetsDir=datasetsDir)}
 
 
 def drawAccessSquare(frame, color):
@@ -32,59 +44,61 @@ def drawAccessSquare(frame, color):
     return frame
 
 
-def enterInfo():
+def enterInfo(names):
     name = None
-    while not name:
-        name = input("NAME:")
-        email = input("email:")
+    while not name or len(name) > 20 or name in names:
+        name = input("NAME:").lower()
         date = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
-    return name, email, date
+    return name, date
 
 
-def showCam(cam: Camera, mode: str) -> None:
-    idx = cam.index
-    windowName = f'Camera {idx}'
-    cv2.namedWindow(windowName)
+def proccess(cam: Camera, mode: str, showCam: bool) -> None:
+    winMngr.createWin(cam.idx, 'Camera' if showCam else 'Pass')
+
+    # Last printed info
     info = ''
+
     while True:
         ret, frame = cam.readFrame()
         if not ret:
-            print(f'Camera {idx}: no frame')
+            print(f'Camera {cam.idx}: no frame')
             break
 
+        # Detect faces
         frame, faces = cam.detectFaces(frame)
 
+        # Recognize face and print if changed
         ret, name, txt = cam.recognizeFace(faces)
         if txt != info:
             info = txt
             print(info)
 
-        frame = drawAccessSquare(
-            frame, (0, 0, 255)) if ret else drawAccessSquare(frame, (0, 255, 0))
-
-        cv2.imshow(windowName, frame)
+        # Show Cam Frame or Access color
+        args = [cam.idx, ret]
+        if showCam:
+            args.append(frame)
+        winMngr.showResult(*args)
 
         # Key logic
         pressedKey = cv2.waitKey(1)
         if pressedKey == ord('q'):
-            print('q pressed')
             break
         elif pressedKey == ord('d'):
-            print('d pressed')
             cam.toggleDrawSquare()
         elif mode == 'save' and pressedKey == ord('s'):
-            print('s pressed')
-            name, email, date = enterInfo()
+            names = cam.getNames()
+            name, date = enterInfo(names)
             ret = cam.saveFace(name)
-            print(ret) if ret else print(name, email, date)
+            print(ret) if ret else print(name, date)
 
-    del cams[idx]
-    cv2.destroyWindow(windowName)
+    del cams[cam.idx]
+    winMngr.destroyWin(cam.idx)
 
 
 def main(args) -> None:
     for i in range(len(cams)):
-        thread = threading.Thread(target=showCam, args=(cams[i], args.mode))
+        thread = threading.Thread(target=proccess,
+                                  args=(cams[i], args.mode, args.showCam))
         thread.start()
 
 

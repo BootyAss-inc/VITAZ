@@ -24,7 +24,6 @@ class Camera(object):
     faceCascade = cv2.CascadeClassifier(haar)
     recognizer = cv2.face.LBPHFaceRecognizer_create()
 
-    datasetsDir = 'datasets'
     datasetSize = 30
     imgSize = (150, 150)
 
@@ -32,14 +31,15 @@ class Camera(object):
 
     lastFrame = None
 
-    def __init__(self, index=0, drawSquareFace=True) -> None:
+    def __init__(self, index=0, drawSquareFace=True, datasetsDir='datasets') -> None:
         """
         Args:
             - index (int, optional): camera index within system. Defaults to 0.
             - drawSquareFace (bool, optional): to draw square on face. Defaults to True.
         """
-        self.index = index
-        self.camera = cv2.VideoCapture(self.index, cv2.CAP_DSHOW)
+        self.datasetsDir = datasetsDir
+        self.idx = index
+        self.camera = cv2.VideoCapture(self.idx, cv2.CAP_DSHOW)
         self.model = Sequential(name=f'model{index}')
         self.drawSquareFace = drawSquareFace
         if not os.path.isdir(self.datasetsDir):
@@ -47,18 +47,18 @@ class Camera(object):
 
         ret = self.loadmodel()
         if ret:
-            logger.saveError(f'Camera {self.index}: {ret}')
+            logger.saveError(f'Camera {self.idx}: {ret}')
             return
 
         ret = self.loadImages()
         if ret:
-            logger.saveInfo(f'Camera {self.index}: dataset is empty')
+            logger.saveInfo(f'Camera {self.idx}: dataset is empty')
             return
 
         ret = self.trainRecognizer()
         if ret:
-            logger.saveInfo(f'Camera {self.index}: ret')
-        logger.saveInfo(f'Camera {self.index}: READY')
+            logger.saveInfo(f'Camera {self.idx}: ret')
+        logger.saveInfo(f'Camera {self.idx}: READY')
 
     def __del__(self):
         self.camera.release()
@@ -88,7 +88,7 @@ class Camera(object):
             self.model.add(Dense(7, activation='softmax'))
 
             self.model.load_weights('model.h5')
-            logger.saveInfo(f'Camera {self.index}: emotion model loaded')
+            logger.saveInfo(f'Camera {self.idx}: emotion model loaded')
         except Exception as e:
             return e
 
@@ -129,6 +129,9 @@ class Camera(object):
         except Exception as e:
             return e
 
+    def getNames(self) -> list[str]:
+        return self.names
+
     def readFrame(self):
         """
         Returns:
@@ -163,13 +166,13 @@ class Camera(object):
             if len(faces) == 0:
                 shutil.rmtree(path)
                 ret = 'no face detected'
-                logger.saveError(f'Camera {self.index}: {ret}')
+                logger.saveError(f'Camera {self.idx}: {ret}')
                 return ret
 
             if len(faces) > 1:
                 shutil.rmtree(path)
                 ret = 'multiple faces detected'
-                logger.saveError(f'Camera {self.index}: ret')
+                logger.saveError(f'Camera {self.idx}: ret')
                 return ret
 
             for (x, y, w, h) in faces:
@@ -178,16 +181,16 @@ class Camera(object):
                 cv2.imwrite(f'{path}/{c}.jpeg', faceResized)
             key = cv2.waitKey(10)
             c += 1
-        logger.saveInfo(f'Camera {self.index}: "{Name}" saved')
+        logger.saveInfo(f'Camera {self.idx}: "{Name}" saved')
 
         ret = self.loadImages()
         if ret:
-            logger.saveInfo(f'Camera {self.index}: dataset is empty')
+            logger.saveInfo(f'Camera {self.idx}: dataset is empty')
             return 'load images'
 
         ret = self.trainRecognizer()
         if ret:
-            logger.saveInfo(f'Camera {self.index}: ret')
+            logger.saveInfo(f'Camera {self.idx}: ret')
             return 'recognizer training'
 
         return None
