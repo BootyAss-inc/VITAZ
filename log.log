@@ -47,3 +47,11 @@ INFO:root: [16:56:01]: Camera 0: emotion model loaded
 INFO:root: [16:56:01]: Camera 0: READY
 INFO:root: [16:56:02]: Camera 1: emotion model loaded
 INFO:root: [16:56:02]: Camera 1: READY
+INFO:root: [13:57:57]: Camera 0: emotion model loaded
+INFO:root: [13:57:57]: Camera 0: READY
+INFO:root: [13:57:58]: Camera 1: emotion model loaded
+INFO:root: [13:57:58]: Camera 1: READY
+INFO:root: [14:55:42]: Camera 0: emotion model loaded
+INFO:root: [14:55:43]: Camera 0: READY
+INFO:root: [14:55:43]: Camera 1: emotion model loaded
+INFO:root: [14:55:43]: Camera 1: READY
